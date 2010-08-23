@@ -7,7 +7,7 @@
 # Change this process name to suit
 PROCESS_NAME="java"
 
-NUM_PROCESSES=`ps ax | grep $PROCESS_NAME | grep -v grep | wc -l`
+NUM_PROCESSES=`ps ax | grep "$PROCESS_NAME" | grep -v grep | wc -l`
 
 if [ $NUM_PROCESSES -lt 1 ]; then
   echo "status err $PROCESS_NAME is not running"
