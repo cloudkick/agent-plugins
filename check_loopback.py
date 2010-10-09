@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-
+#
 # Cloudkick plugin that checks if the loopback interface is available, has at least one ip address
 # assigned and is up
+#
 
 import re
 import sys
@@ -48,7 +49,12 @@ def main():
 
   port = random.randint(20000, 40000)
   try:
-    connection = socket.create_connection((inet_addr, port), connect_timeout)
+    if int(sys.version[0]) == 2 and int(sys.version[2]) <= 5:
+        connection_socket = socket.socket(socket.AF_INET)
+        connection_socket.settimeout(connect_timeout)
+        connection = connection_socket.connect((inet_addr, port))
+    else:
+        connection = socket.create_connection((inet_addr, port), connect_timeout)
   except socket.timeout, e:
     print 'status err can\'t establish connection to %s:%s' % (inet_addr, port)
     sys.exit(1)
