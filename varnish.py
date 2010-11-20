@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-CloudKick Varnish plugin
+Cloudkick Varnish plugin
 Developed by Christopher Groskopf for The Chicago Tribune News Applications Team
 http://apps.chicagotribune.com
 https://github.com/newsapps
@@ -10,9 +10,9 @@ Source released under the MIT license.
 Description:
 
 This plugin will pipe all output from the command "varnishstat -1"
-up to CloudKick.  In addition, it will store the cache_hit and cache_miss stats
+up to Cloudkick.  In addition, it will store the cache_hit and cache_miss stats
 in a tmp file on each execution so that it can compute a hit_rate stat, which will
-also be reported to CloudKick.
+also be reported to Cloudkick.
 
 Error reporting:
 
