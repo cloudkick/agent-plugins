@@ -3,6 +3,7 @@
 CloudKick Varnish plugin
 Developed by Christopher Groskopf for The Chicago Tribune News Applications Team
 http://apps.chicagotribune.com
+https://github.com/newsapps
 
 Source released under the MIT license.
 
