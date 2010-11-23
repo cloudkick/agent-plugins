@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 
-# Cloudkick plugin that monitors CloudWatch info for RDS instances.
-# Parameters required are:
-# DBInstanceIdentifier, AWS Access Key, and AWS Secret Access Key
-
-# Requires boto library:
-# # easy_install boto
+# Cloudkick plugin that monitors CloudWatch stats for RDS instances.
+#
+# Author: Phil Kates
+#
+# Requirements:
+# - Boto (http://boto.s3.amazonaws.com/index.html)
+#
+# Plugin arguments:
+# 1. DBInstanceIdentifier
+# 2. AWS Access Key
+# 3. AWS Secret Access Key
 
 import datetime
 import sys
