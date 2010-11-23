@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+# Cloudkick plugin for monitoring Resque <http://github.com/defunkt/resque>
+#
+# USAGE
+#
+# The script assume you're running Redis on localhost on the standard Redis
+# port, 6379. To connect to a different host set the REDIS_URI environment
+# variable.
+#
+# We don't actually install this script directly into the plugin folder.
+# Instead, we keep it inside our app at script/cloudkick-resque. The actual
+# plugin that the agent runs looks something like this:
+#
+#   $ cat /usr/lib/cloudkick-agent/plugins/resque
+#   #!/bin/sh
+#   export REDIS_URI=ec2-50-16-42-174.compute-1.amazonaws.com:6379
+#   cd /data/app/current && bundle exec script/cloudkick-resque
+#
+# AUTHOR  Simon Rozet <http://github.com/sr>
+# COPYING WTFPL <http://sam.zoy.org/wtfpl/>
+
+require "resque"
+
+if uri = ENV["REDIS_URI"]
+  Resque.redis = uri
+end
+
+workers  = Resque.workers
+total    = workers.size
+idling   = workers.select { |w| w.idle? }.size
+working  = Resque.working.reject { |w| w.idle? }.size
+busyness = (working.to_f / total) * 100
+
+info      = Resque.info
+failed    = info[:failed]
+processed = info[:processed]
+queues    = info[:queues]
+
+if busyness == 100
+  puts "status err out of workers"
+elsif busyness >= 60
+  puts "status err backed up #{idling}/#{total} free workers"
+elsif busyness >= 40
+  puts "status warn #{idling}/#{total} free workers"
+else
+  puts "status ok #{idling}/#{total} free workers"
+end
+
+puts "metric working int #{working}"
+puts "metric idling int #{idling}"
+puts "metric processed int #{processed}"
+puts "metric failed int #{failed}"
+puts "metric queues int #{queues}"
