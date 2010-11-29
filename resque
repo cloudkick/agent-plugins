@@ -16,12 +16,17 @@
 #   export REDIS_URI=ec2-50-16-42-174.compute-1.amazonaws.com:6379
 #   cd /data/app/current && bundle exec script/cloudkick-resque
 #
+# You can also specify the Redis URI via arguments:
+# https://support.cloudkick.com/Creating_a_Plugin#Arguments
+#
 # AUTHOR  Simon Rozet <http://github.com/sr>
 # COPYING WTFPL <http://sam.zoy.org/wtfpl/>
 
 require "resque"
 
-if uri = ENV["REDIS_URI"]
+if uri = ARGV.first
+  Resque.redis = uri
+elsif uri = ENV["REDIS_URI"]
   Resque.redis = uri
 end
 
