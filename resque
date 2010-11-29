@@ -53,6 +53,6 @@ end
 
 puts "metric working int #{working}"
 puts "metric idling int #{idling}"
-puts "metric processed int #{processed}"
-puts "metric failed int #{failed}"
+puts "metric processed gauge #{processed}"
+puts "metric failed gauge #{failed}"
 puts "metric queues int #{queues}"
