@@ -40,7 +40,7 @@ HIT_RATE_FILE = '/tmp/cloudkick-agent-varnish.tmp'
 result = subprocess.Popen(['varnishstat', '-1'], stdout=subprocess.PIPE).communicate()[0]
 
 if not result:
-    print 'status error Varnish is not running.'
+    print 'status err Varnish is not running.'
     sys.exit()
 
 data = []
@@ -86,5 +86,5 @@ except Exception, e:
 
 print 'status ok Varnish is running.'
 
-for  d in data:
+for d in data:
     print d
