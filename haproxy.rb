@@ -8,7 +8,8 @@
 # this stuff is worth it, you can buy me a beer in return 
 # ----------------------------------------------------------------------------
 
-# the script:
+### the script:
+
 # takes HAProxy stats and grabs connections, rate, and check time
 # for every listener and every backend server, using a format like
 # "metric groupname_servername_request_rate int 10
@@ -36,10 +37,10 @@ if ( pid )
 # grab statistics from the socket
 
 	require 'socket'
-	
+
 	ctl=UNIXSocket.new(socket)
 	ctl.puts "show stat"
-		
+
 	while (line = ctl.gets) do
 		if (line =~ /^[^#]\w+/)
 			line = line.split(",")
@@ -48,11 +49,9 @@ if ( pid )
 			puts "metric #{line[0]}_#{line[1]}_health_check_duration int #{line[35]}" if line[35].to_i > 0
 		end
 	end
-		
+
 	ctl.close
 
 else
 	puts "status critical haproxy is not running!"
 end
-		
-
