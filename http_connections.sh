@@ -12,7 +12,7 @@
 
 # Set this to the threshold for connected users.
 # Below this threshold is a critical alert
-THRESHOLD = 1
+THRESHOLD=1
 
 NOW=`netstat -ano |grep :80`;
 SIMULTANEOUS=`echo "$NOW" |grep -c :80`
@@ -26,6 +26,7 @@ if [ $SIMULTANEOUS -lt $THRESHOLD ]; then
 	else
 		echo "status critical no users connected!";
 	fi
+	exit
 else
 	echo "status ok ok";
 fi

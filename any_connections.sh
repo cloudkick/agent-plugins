@@ -31,6 +31,7 @@ if [ $SIMULTANEOUS -lt 1 ]; then
 	else
 		echo "status critical no users connected!";
 	fi
+	exit
 else
 	echo "status ok ok";
 fi
