@@ -10,6 +10,9 @@
 # this stuff is worth it, you can buy me a beer in return 
 # ----------------------------------------------------------------------------
 
+# Set this to the threshold for connected users.
+# Below this threshold is a critical alert
+THRESHOLD = 1
 
 NOW=`netstat -ano |grep :443`;
 SIMULTANEOUS=`echo "$NOW" |grep -c :443`
@@ -17,7 +20,7 @@ ACTIVE=`echo "$NOW" |grep -c ESTABLISHED`
 IDLE=`echo "$NOW" |grep -c TIME_WAIT`
 #remove the listener
 SIMULTANEOUS=$(($SIMULTANEOUS - 1))
-if [ $SIMULTANEOUS -lt 5 ]; then
+if [ $SIMULTANEOUS -lt $THRESHOLD ]; then
 	if [ $SIMULTANEOUS -lt 0 ]; then
 		echo "status err no server listening!"
 	else
