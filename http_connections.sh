@@ -10,6 +10,21 @@
 # this stuff is worth it, you can buy me a beer in return 
 # ----------------------------------------------------------------------------
 
+if [ "$1" = "help" ]; then
+	echo "CloudKick check to return established, connected, and idle users, and ensure there is a listener (critical if there is not)
+usage: $0 <threshold|help>
+where 
+	help prints this message
+	threshold is the number of minimum users.  Below this number is a critical alert.
+	if no argument, threshold is 1."
+	exit
+else
+	if [ "$1" ]; then
+		THRESHOLD=$1
+	else
+		THRESHOLD=1
+	fi
+fi 
 
 NOW=`netstat -ano |grep :80`;
 SIMULTANEOUS=`echo "$NOW" |grep -c :80`
@@ -17,16 +32,17 @@ ACTIVE=`echo "$NOW" |grep -c ESTABLISHED`
 IDLE=`echo "$NOW" |grep -c TIME_WAIT`
 #remove the listener
 SIMULTANEOUS=$(($SIMULTANEOUS - 1))
-if [ $SIMULTANEOUS -lt 5 ]; then
+if [ $SIMULTANEOUS -lt $THRESHOLD ]; then
 	if [ $SIMULTANEOUS -lt 0 ]; then
 		echo "status err no server listening!"
+		exit
 	else
-		echo "status critical no users connected!";
+		echo "status critical less than $THRESHOLD users connected!";
 	fi
 else
 	echo "status ok ok";
 fi
-echo "metric https_users int $SIMULTANEOUS";
-echo "metric https_users_active int $ACTIVE";
-echo "metric https_users_idle int $IDLE";
+echo "metric http_users int $SIMULTANEOUS";
+echo "metric http_users_active int $ACTIVE";
+echo "metric http_users_idle int $IDLE";
 

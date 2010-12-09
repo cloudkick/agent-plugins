@@ -20,19 +20,23 @@ NOW=`netstat -ano |grep :$PORT`;
 SIMULTANEOUS=`echo "$NOW" |grep -c :$PORT`
 ACTIVE=`echo "$NOW" |grep -c ESTABLISHED`
 IDLE=`echo "$NOW" |grep -c TIME_WAIT`
+CLOSING=`echo "$NOW" |grep -c FIN`
+
 #remove the listener
 SIMULTANEOUS=$(($SIMULTANEOUS - 1))
-if [ $SIMULTANEOUS -lt 5 ]; then
+if [ $SIMULTANEOUS -lt 1 ]; then
 	if [ $SIMULTANEOUS -lt 0 ]; then
 		echo "status err no server listening!"
 		SIMULTANEOUS=0
 	else
 		echo "status critical no users connected!";
 	fi
+	exit
 else
 	echo "status ok ok";
 fi
-echo "metric https_users int $SIMULTANEOUS";
-echo "metric https_users_active int $ACTIVE";
-echo "metric https_users_idle int $IDLE";
+echo "metric port$PORT\users int $SIMULTANEOUS";
+echo "metric port$PORT\users_active int $ACTIVE";
+echo "metric port$PORT\users_idle int $IDLE";
+echo "metric port$PORT\users_closing int $CLOSING";
 
