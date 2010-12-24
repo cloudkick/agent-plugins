@@ -78,7 +78,11 @@ for line in f:
             ips.append(ip)
         except socket.error:
             pass
-f.close()
+
+try:
+    f.close()
+except Exception:
+  pass
 
 print 'metric bans int', count
 
