@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 """
-Count the number of IPs that were banned in the last minute.  
+Count the number of IPs that were banned in the last minute.
 
 Usage:
-  fail2ban.py [warn_count] [alert_count] 
+  fail2ban.py [warn_count] [alert_count]
 
 LICENSE: http://www.opensource.org/licenses/mit-license.php
 AUTHOR:  Caleb Groom <http://github.com/calebgroom>
@@ -30,7 +30,7 @@ for i in [2,3]:
           print 'status err argument "%s" is not a valid integer' % sys.argv[i-1]
           sys.exit(1)
 
-# Discover 'logtarget' setting in configuration file 
+# Discover 'logtarget' setting in configuration file
 paths = ['/etc/fail2ban.conf', '/etc/fail2ban/*.conf']
 config_files = []
 for p in paths:
@@ -41,9 +41,9 @@ for p in paths:
 
 config = ConfigParser.ConfigParser()
 config.read(config_files)
-try: 
+try:
     logfile = config.get("Definition", "logtarget")
-except ConfigParser.NoOptionError: 
+except ConfigParser.NoOptionError:
     print 'status err "logtarget" is not defined in', config_files
     sys.exit(1)
 
@@ -51,7 +51,7 @@ if not os.path.isfile(logfile):
     print 'status err log file', logfile, 'is not a file'
     sys.exit(1)
 
-# Drop the seconds from the timestam and look for ban entries.  
+# Drop the seconds from the timestam and look for ban entries.
 # Sample ban message:
 #     2010-10-21 18:01:08,099 fail2ban.actions: WARNING [ssh-iptables] Ban 1.2.3.4
 timestamp = now.isoformat(' ')[:17]
@@ -77,7 +77,7 @@ for line in f:
             count += 1
             ips.append(ip)
         except socket.error:
-            pass 
+            pass
 f.close()
 
 print 'metric bans int', count
