@@ -2,3 +2,6 @@ This repository contains some useful custom plugins for the Cloudkick Agent.
 
 For more information on how to set up custom plugins, see https://support.cloudkick.com/Agent/Custom_Plugins
 
+All files are under individual licenses.  See each individual plugin for their license.
+
+If you are contributing a new plugin, we suggest using the MIT or Apache 2.0 license.
