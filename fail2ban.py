@@ -43,8 +43,8 @@ config = ConfigParser.ConfigParser()
 config.read(config_files)
 try:
     logfile = config.get("Definition", "logtarget")
-except ConfigParser.NoOptionError:
-    print 'status err "logtarget" is not defined in', config_files
+except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
+    print 'status err "logtarget" is not defined in', ', ' .join(config_files)
     sys.exit(1)
 
 if not os.path.isfile(logfile):
