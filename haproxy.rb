@@ -46,7 +46,7 @@ if ( pid )
 			line = line.split(",")
 			host = "#{line[0]}_#{line[1]}"
 			puts "metric #{host}_request_rate int #{line[47]}" if line[47].to_i > 0
-			puts "metric #{host}_total_requests guage #{line[49]}" if line[49].to_i > 0
+			puts "metric #{host}_total_requests gauge #{line[49]}" if line[49].to_i > 0
 			puts "metric #{host}_health_check_duration int #{line[35]}" if line[35].to_i > 0
 			puts "metric ${host}_current_queue int #{line[3]}" if line[3].to_i > 0
 		end
