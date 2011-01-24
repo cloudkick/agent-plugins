@@ -42,15 +42,34 @@ from redis.exceptions import RedisError
 dbregex = re.compile(r'db\d+')
 
 parser = optparse.OptionParser()
-parser.add_option('--host', help='Redis host')
-parser.add_option('--port', help='Redis port', type='int')
+parser.add_option('--host', help='Redis host', default='localhost')
+parser.add_option('--port', help='Redis port', type='int', default=6379)
 (options, args) = parser.parse_args()
 
-host = options.host or 'localhost'
-port = options.port or 6379
+metrics = {
+    'blocked_clients': 'int',
+    'changes_since_last_save': 'int',
+    'connected_clients': 'int',
+    'connected_slaves': 'int',
+    'expired_keys': 'int',
+    'used_memory': 'int',
+    'pubsub_channels': 'int',
+    'pubsub_patterns': 'int',
+
+    'mem_fragmentation_ratio': 'float',
+    'used_cpu_sys': 'float',
+    'used_cpu_user': 'float',
+    'used_cpu_sys_childrens': 'float',
+    'used_cpu_user_childrens': 'float',
+
+    'last_save_time': 'gauge',
+    'total_commands_processed': 'gauge',
+    'total_connections_received': 'gauge',
+    'uptime_in_seconds': 'gauge'
+}
 
 try:
-    db = Redis(host=host, port=port)
+    db = Redis(host=options.host, port=options.port)
     info = db.info()
 except RedisError, msg:
     print 'status err Error from Redis: %s' % msg
@@ -58,26 +77,16 @@ else:
 
     print 'status ok redis success'
 
-    # Integer metrics
-    for key in ['blocked_clients', 'changes_since_last_save', 'connected_clients',
-                'connected_slaves', 'expired_keys', 'used_memory',
-                'pubsub_channels', 'pubsub_patterns']:
-        print 'metric', key, 'int', info.get(key)
+    for metric, _type in metrics.iteritems():
+        print 'metric %s %s %s' % (metric, _type, info.get(metric))
 
-    # Float metrics
-    for key in ['mem_fragmentation_ratio', 'used_cpu_sys', 'used_cpu_user',
-                'used_cpu_sys_childrens', 'used_cpu_user_childrens']:
-        print 'metric', key, 'float', info.get(key)
-
-    # Gauge metrics
-    for key in ['last_save_time', 'total_commands_processed',
-                'total_connections_received', 'uptime_in_seconds']:
-        print 'metric', key, 'gauge', info.get(key)
-
-    # We want to combine the dbindex-specific metrics with their keys
-    # So {'db0': {'expires': 0, 'keys': 935}} becomes 'db0_keys => 935', etc...
+    # We also want to output the dbindex-specific metrics
+    # Redis INFO returns these as
+    #   'db0': {'expires': 0, 'keys': 935},
+    #   'db1': {'expires': 4, 'keys': 100},
+    #
+    # These should be converted to db0_expires, db0_keys, etc...
     for key in info:
         if dbregex.match(key):
             for metric, value in info[key].iteritems():
-                name = '%s_%s' % (key, metric)
-                print 'metric', name, 'int', value
+                print 'metric %s_%s int %s' % (key, metric, value)
