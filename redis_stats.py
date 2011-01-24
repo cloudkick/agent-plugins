@@ -39,13 +39,12 @@ import optparse
 from redis import Redis
 from redis.exceptions import RedisError
 
-dbregex = re.compile(r'db\d+')
-
 parser = optparse.OptionParser()
 parser.add_option('--host', help='Redis host', default='localhost')
 parser.add_option('--port', help='Redis port', type='int', default=6379)
 (options, args) = parser.parse_args()
 
+dbregex = re.compile(r'db\d+')
 metrics = {
     'blocked_clients': 'int',
     'changes_since_last_save': 'int',
