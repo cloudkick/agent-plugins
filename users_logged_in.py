@@ -61,7 +61,7 @@ if __name__ == '__main__':
     # If we have no users, we're done.
     if users is None:
         sys.stdout.write("status ok No users logged in.\n")
-        sys.stdout.write("metric users_logged_in int 0")
+        sys.stdout.write("metric users_logged_in int 0\n")
         sys.exit(0)
     # Anything else, we have users
     else:
@@ -72,9 +72,8 @@ if __name__ == '__main__':
         else:
             userWord = 'users'
         # Build our string and report the warning
-        sys.stdout.write("status warn %d %s logged in:" % (userNum, userWord))
+        sys.stdout.write("status warn %d %s logged in: " % (userNum, userWord))
         sys.stdout.write(", " . join(users)[:48])
         sys.stdout.write('\n')
-        sys.stdout.write("metric users_logged_in int %d" % (userNum))
-        sys.stdout.write('\n')
+        sys.stdout.write("metric users_logged_in int %d\n" % (userNum,))
         sys.exit(0)
