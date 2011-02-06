@@ -57,16 +57,17 @@ def domainIsTaken(domain):
        return False
 
 def main():
-    # Remove our own program name from arguments
-    sys.argv.remove(sys.argv[0])
+    # Remove our program name from sys args
+    domains = sys.argv[1:]
+    
     # If no domains found, raise an error.
-    if len(sys.argv) < 1:
+    if len(domains) < 1:
         msg = 'status err no domains provided.\n'
         sys.stderr.write(msg)
         sys.exit(1)
 
     # Iterate through each domain
-    for domain in sys.argv:
+    for domain in domains:
         # If taken, skip to next domain.
         if domainIsTaken(domain):
             continue
