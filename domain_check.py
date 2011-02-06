@@ -3,6 +3,15 @@
 # If the domain is taken, an 'ok' status is returned.
 # If the domain is free, a 'warn' status is returned.
 #
+# Verified working TLD types:
+# com
+# net
+# org
+# co.uk
+# us
+# tv
+# info
+#
 # Used to watch for domains you want to purchase but are
 # taken. =) Sure, you can pay for this service, but I'd
 # rather get an SMS and jump on GoDaddy personally.
