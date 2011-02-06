@@ -65,7 +65,7 @@ def main():
         else:
             msg = "status warn %s is not registered.\n" % (domain,)
             sys.stdout.write(msg)
-            break
+            sys.exit(0)
 
     # No domains are available
     msg = "status ok No domains available to register.\n"
