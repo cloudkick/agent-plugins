@@ -42,7 +42,7 @@ def domainIsTaken(domain):
        sys.stderr.write(msg)
        sys.exit(1)
 
-   if 'created' in out or 'Created' in out:
+   if 'Registrar:' in out:
        return True
    else:
        return False
