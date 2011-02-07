@@ -14,7 +14,7 @@
 postqueue=`which postqueue`.chomp
 
 running=`ps axf |grep postfix |grep -v grep`.chomp
-if ( running =~ /^(\d+)\s+pts/ )
+if ( running =~ /^(\d+)\s+(pts|tty|\?)/ )
 	pid=$1
 	messages=`#{postqueue} -p |grep -v "Mail queue is empty" |wc -l`.chomp.to_i
 	if ( messages > 0 )
