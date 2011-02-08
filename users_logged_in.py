@@ -66,7 +66,8 @@ if __name__ == '__main__':
     # Anything else, we have users
     else:
         # Find out if it's "user" or "users"
-        if len(users) == 1:
+        userNum = len(users)
+        if userNum == 1:
             userWord = 'user'
         else:
             userWord = 'users'
