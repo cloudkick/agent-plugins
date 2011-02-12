@@ -102,7 +102,7 @@ def main():
         userNum = 0
     # Anything else, we have users
     else:
-        # Find out the number of u sers and
+        # Find out the number of users and
         #if we're saying "user" or "users"
         userNum = len(users)
         if userNum == 1:
