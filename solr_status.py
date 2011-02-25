@@ -51,9 +51,9 @@ METRIC_MAPPINGS = {
                   'numDocs': {'type': 'int', 'display_name': 'documents_number'},
                   'maxDocs': {'type': 'int', 'display_name': 'maximum_documents'},
                   'indexSize': {'type': 'float', 'display_name': 'index_size'},
-                  'requests': {'type': 'gaugae', 'display_name': 'update_handler_requests'},
-                  'errors':  {'type': 'gaugae', 'display_name': 'update_handler_errors'},
-                  'timeouts': {'type': 'gaugae', 'display_name': 'update_handler_timeouts'}
+                  'requests': {'type': 'gauge', 'display_name': 'update_handler_requests'},
+                  'errors':  {'type': 'gauge', 'display_name': 'update_handler_errors'},
+                  'timeouts': {'type': 'gauge', 'display_name': 'update_handler_timeouts'}
 }
 
 def main():
