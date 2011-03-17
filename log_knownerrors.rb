@@ -24,10 +24,11 @@ end
 lines = ARGV[2]
 if ( lines =~ /^\d+$/ )
 	lines = lines.to_i
-elsif ( lines == '' )
+elsif ( lines == '' || lines == nil )
 	lines = 100
 else
 	puts "the optional third argument must be an integer!"
+	exit
 end
 	
 
@@ -38,7 +39,7 @@ logentries = []
 logentries=`/usr/bin/tail -#{lines} #{file} |grep -e "#{warning}"`
 
 if (logentries.size > 0)
-	puts "status err bad entires for #{warning} in #{file}"
+	puts "status err bad entires for \"#{warning}\" in #{file}"
 else
 	puts "status ok ok"
 end
