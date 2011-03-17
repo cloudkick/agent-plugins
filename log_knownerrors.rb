@@ -14,7 +14,7 @@
 
 if (ARGV.length < 2 || ARGV[0] !~ /\w+/ || ARGV[1] !~ /\w+/)
 	puts "Searches for an error in the last 100 lines of a log file.
-usage: $0 <file> <warning> <optional:number of lines to parse>
+usage: #{$0} <file> <warning> <optional:number of lines to parse>
 	where <file> is the full path to the log file we're checking
 	and <warning> is the string we should alert on.  
 	and the optional third field is number of lines of <file> to read.  If empty, this is 100 lines."
