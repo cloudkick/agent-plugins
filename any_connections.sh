@@ -16,7 +16,8 @@ if [ $# -ne 1 ]; then
 fi
 
 PORT=$1
-SIMULTANEOUS=`netstat -an|grep -v 'LISTEN'|grep -c :$PORT\ `
+NOW=`netstat -an|grep -v 'LISTEN'`
+SIMULTANEOUS=`echo $NOW|grep -c :$PORT\ `
 ACTIVE=`echo "$NOW" |grep -c ESTABLISHED`
 IDLE=`echo "$NOW" |grep -c TIME_WAIT`
 CLOSING=`echo "$NOW" |grep -c FIN`
