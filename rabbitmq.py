@@ -21,6 +21,18 @@
 # THE SOFTWARE.
 #
 # Cloudkick plugin for monitoring a RabbitMQ stats.
+#
+# Example usage (arguments which you pass in to the plugin the Cloudkick
+#                dashboard):
+#
+# Monitor queue "bg_jobs" memory usage, number of consumers and number of
+# messages:
+#
+# --action list_queues --queue bg_jobs --parameters memory,consumers,messages
+#
+# Monitor exchange "amqp.direct" type, durability and auto_delete value
+#
+# --action list_exchanges --exchange amqp.direct --parameters type,durable,auto_delete
 
 import re
 import sys
