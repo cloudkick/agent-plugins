@@ -54,6 +54,6 @@ if len(sys.argv) < 2:
   sys.exit('Usage: %s <log file to check>' % sys.argv[0])
 
 if not os.path.exists(sys.argv[1]):
-  sys.exit('ERROR: file %s not found!' % (sys.argv[1]))
+  sys.exit('status err file %s not found' % (sys.argv[1]))
 else:
   check_logs(sys.argv[1])
