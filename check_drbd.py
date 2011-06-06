@@ -15,10 +15,10 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -44,7 +44,12 @@ def parse_line(line):
 
 
 def read_proc_drbd(filename, device_num):
-    info_fd = open(filename, "r")
+    try:
+        info_fd = open(filename, "r")
+    except IOError:
+        print 'status err drbd device (%s) not found' % (filename)
+        sys.exit(1)
+
     device_num = str(device_num)
     dev_stats = {}
 
@@ -78,7 +83,7 @@ METRICS = (
     ("connection_state", "cs", "string", fmt_string),
     ("disk_state", "ds", "string", fmt_string),
     ("roles", "ro", "string", fmt_string),
-    
+
     ("network_send", "ns", "int", fmt_size),
     ("network_send_rate", "ns", "gauge", fmt_size),
     ("network_receive", "nr", "int", fmt_size),
@@ -89,7 +94,7 @@ METRICS = (
     ("disk_read_rate", "dr", "gauge", fmt_size),
     ("out_of_sync", "oos", "int", fmt_size),
     ("out_of_sync_rate", "oos", "gauge", fmt_size),
-    
+
     ("activity_log", "al", "int", fmt_count),
     ("activity_log_rate", "al", "gauge", fmt_count),
     ("bit_map", "bm", "int", fmt_count),
