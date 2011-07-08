@@ -4,6 +4,12 @@ MINS=$1
 MAXS=$2
 DIR=$3
 
+if [ -z "$MINS" ] || [ -z "$MAXS" ] || [ -z "$DIR" ]; then
+  echo "usage: $0 <minimum size in MB> <maximum size in MB> <directory>
+	example: $0 100 100000 /home"
+  exit 2
+fi
+
 if [ ! -d $DIR ]; then
   echo "status err $DIR does not exist"
   exit
