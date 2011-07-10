@@ -31,11 +31,12 @@ fi
 
 HOST_COUNT=`nagios3stats | grep "Total Hosts" | awk '{ print $3 }'`
 
+echo "metric nagios_host_count int $HOST_COUNT"
+
 if [ "$HOST_COUNT" -lt "$1" ]; then
   echo "status err nagios has less than $1 hosts"
 else
   echo "status ok nagios has $HOST_COUNT hosts"
-  echo "metric nagios_host_count int $HOST_COUNT"
 fi
 
 
