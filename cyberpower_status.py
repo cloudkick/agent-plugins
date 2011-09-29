@@ -71,6 +71,9 @@ def makeMetric(ourName, ourValue, gauge=False):
     # Set to gauge if needed, otherwise change our object to it's name.
     if gauge and ourType is int:
         ourType = 'gauge'
+    # CloudKick wants string instead of str
+    elif ourType is str:
+        ourType = 'string'
     else:
         ourType = ourType.__name__
 
