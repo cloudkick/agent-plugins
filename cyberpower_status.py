@@ -44,7 +44,7 @@ def getInfo():
            # Pull the options we want as integers.
            if option in ( 'Rating Wattage', 'Battery Percentage',
                           'Utility Voltage', 'Output Voltage', 
-                          'Rating Voltage', 'Load Wattage', ):
+                          'Rating Voltage', 'Load Wattage' ):
                value = int(value.split()[0])
 
            # Add our new key
