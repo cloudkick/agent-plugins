@@ -20,12 +20,14 @@ def getInfo():
 
    # Build our results into key: value pairs.
    results = {}
-   # All values are separated by a line of periods. Get the items on either side.
+   # All values are separated by a line of periods.
+   # Get the items on either side.
    for line in out.split('\n'):
        if '.' in line:
            option = line.split('.')[0].strip()
            value = line.split('.')[-1].strip()
            # Rename a few options to make them more clear.
+           # Also, in making numbers ints, we lose the Volt/Watt label.
            if option == 'Load':
                option = 'Load Wattage'
                 # Might as well pull out the percentage while we are here.
@@ -44,7 +46,7 @@ def getInfo():
            # Add our new key
            results[option] = value
 
-      # Send the results
+   # Send the results
    return results
 
 def makeMetric(ourName, ourValue, gauge=False):
@@ -53,14 +55,16 @@ def makeMetric(ourName, ourValue, gauge=False):
     https://support.cloudkick.com/Creating_a_plugin
     """
 
+    # Find our type
     ourType = type(ourValue)
 
-    # Check if string, int or float.
+    # Check if it's a string, int or float.
     if ourType not in ( str, int, float ):
         msg = 'Invalid value passed to makeMetric. Exiting.\n'
         sys.stderr.write(msg)
         sys.exit(1)
 
+    # Set to gauge if needed, otherwise change our object to it's name.
     if gauge and ourType is int:
         ourType = 'gauge'
     else:
@@ -90,7 +94,9 @@ if __name__ == '__main__':
             status = 'warn'
 
         # First, build our status message based on state.
-        msg = "status %s Our %s UPS is in a '%s' state.\n" % (status, info['Model Name'], info['State'])
+        msg = "status %s Our %s UPS is in a '%s' state.\n" % (status, 
+                                                              info['Model Name'],
+                                                              info['State'])
         
         # Then, iterate through our keys
         for k, v in info.items():
