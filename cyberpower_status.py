@@ -1,4 +1,28 @@
 #!/usr/bin/python -tt
+# cyberpower_status.py
+#
+# Builds metrics provided to us by the PowerPanel package (pwrstat)
+# for CyberPower UPS units.
+#
+# Written for the CP850PFCLCD using version 1.2 of PowerPanel for Linux, 
+# it should function the same for any CyberPower UPS unit that supports
+# communications over USB. If you run into any bugs, let me know.
+#
+# Copyright (C) 2011  James Bair <james.d.bair@gmail.com>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 import commands
 import os
