@@ -11,7 +11,7 @@ def getInfo():
    
    # Ensure pwrstat is present. If not, abort.
    status, out = commands.getstatusoutput('pwrstat -status')
-   if status is not 0:
+   if status:
        msg = "Unable to find PowerPanel software.\n"
        msg += "Please install the required software and try again.\n"
        msg += status
@@ -25,25 +25,20 @@ def getInfo():
        if '.' in line:
            option = line.split('.')[0].strip()
            value = line.split('.')[-1].strip()
-           # Start setting our numbers as integers.
-           # Rename the following options as well.
+           # Rename a few options to make them more clear.
            if option == 'Load':
                option = 'Load Wattage'
-               value = int(value.split()[0]) 
                 # Might as well pull out the percentage while we are here.
                results['Watt Percentage'] = int(line.split()[-2].split('(')[1])
            elif option == 'Rating Power':
                option = 'Rating Wattage'
-               value = int(value.split()[0])
            elif option == 'Battery Capacity':
                option = 'Battery Percentage'
-               value = int(value.split()[0])
-           # The rest are all much easier. =) Int only.
-           elif option == 'Utility Voltage':
-               value = int(value.split()[0])
-           elif option == 'Output Voltage':
-               value = int(value.split()[0])
-           elif option == 'Rating Voltage':
+
+           # Pull the options we want as integers.
+           if option in ( 'Rating Wattage', 'Battery Percentage',
+                          'Utility Voltage', 'Output Voltage', 
+                          'Rating Voltage', 'Load Wattage' ):
                value = int(value.split()[0])
 
            # Add our new key
@@ -58,21 +53,18 @@ def makeMetric(ourName, ourValue, gauge=False):
     https://support.cloudkick.com/Creating_a_plugin
     """
 
+    ourType = type(ourValue)
+
     # Check if string, int or float.
-    if type(ourValue) is str:
-        ourType = 'string'
-    elif type(ourValue) is int:
-        ourType = 'int'
-        # If an int, see if we need this as a gauge.
-        if gauge is True:
-            ourType = 'gauge'
-    elif type(ourValue) is float:
-        ourType = 'float'
-    # If not a supported type, abort.
-    else:
+    if ourType not in ( str, int, float ):
         msg = 'Invalid value passed to makeMetric. Exiting.\n'
         sys.stderr.write(msg)
         sys.exit(1)
+
+    if gauge and ourType is int:
+        ourType = 'gauge'
+    else:
+        ourType = ourType.__name__
 
     # Cannot have spaces in our name, so replace_with_underscores.
     ourName = ourName.replace(' ', '_')
@@ -83,7 +75,7 @@ def makeMetric(ourName, ourValue, gauge=False):
 # MAIN
 if __name__ == '__main__':
     # pwrstat requires root to poll UPS
-    if os.getuid() != 0:
+    if os.getuid():
         msg = 'This script must be run as root.\n'
         sys.stderr.write(msg)
         sys.exit(1)
