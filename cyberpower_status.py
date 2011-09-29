@@ -36,11 +36,15 @@ def getInfo():
                option = 'Rating Wattage'
            elif option == 'Battery Capacity':
                option = 'Battery Percentage'
+           elif option == 'Remaining Runtime':
+               option = 'Minutes Remaining'
+               # A period after "Min" requires a different split
+               value = int(line.split('.')[-2].strip().split()[0])
 
            # Pull the options we want as integers.
            if option in ( 'Rating Wattage', 'Battery Percentage',
                           'Utility Voltage', 'Output Voltage', 
-                          'Rating Voltage', 'Load Wattage' ):
+                          'Rating Voltage', 'Load Wattage', ):
                value = int(value.split()[0])
 
            # Add our new key
