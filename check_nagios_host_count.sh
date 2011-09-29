@@ -1,6 +1,9 @@
-#!/usr/bin/env python
+#!/bin/sh
+
+# check_nagios_host_count.sh <min_hosts>
+# Cloudkick plugin to check if nagios has at least min_hosts hosts
 #
-# License: MIT
+# Copyright (C) 2010 by Ben Firshman <ben@firshman.co.uk>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -8,10 +11,10 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,41 +22,21 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-#
-import sys, os, time
 
-DEFAULT_AGE=600
 
-def check_logs(*logs):
-  out = []
-  total = 0
-  status = 'ok'
-  msg = 'everything looks good'
-  n = time.time()
-  for l in logs:
-    if isinstance(l, (list, tuple)):
-      limit, l = l
-    else:
-      limit = DEFAULT_AGE
-    try:
-      s = os.stat(l)
-    except Exception:
-      status = 'err'
-      msg = "file not found '%s'" % l
-    else:
-      diff = n - (s.st_mtime)
-      msg = 'everything looks good, modified %d seconds ago' % diff
-      if diff > limit:
-        status = 'err'
-        msg = '%s not modified in %d seconds' % (l, diff)
+if [ $# -ne 1 ]; then
+  echo -e "usage: `basename $0` <min_hosts>"
+  exit 1
+fi
 
-  out.insert(0, "status %s %s" % (status, msg))
-  print '\n'.join(out)
+HOST_COUNT=`nagios3stats | grep "Total Hosts" | awk '{ print $3 }'`
 
-if len(sys.argv) < 2:
-  sys.exit('Usage: %s <log file to check>' % sys.argv[0])
+echo "metric nagios_host_count int $HOST_COUNT"
 
-if not os.path.exists(sys.argv[1]):
-  sys.exit('status err file %s not found' % (sys.argv[1]))
-else:
-  check_logs(sys.argv[1])
+if [ "$HOST_COUNT" -lt "$1" ]; then
+  echo "status err nagios has less than $1 hosts"
+else
+  echo "status ok nagios has $HOST_COUNT hosts"
+fi
+
+

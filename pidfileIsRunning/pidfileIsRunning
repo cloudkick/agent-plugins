@@ -1,0 +1,34 @@
+#!/bin/bash
+if [ $# -ne 2 ]
+then
+  echo "This should be called from cloudkick agent:"
+  echo "  $0 <name> <pidfile>"
+  exit 1
+fi
+NAME=$1
+PIDFILE=$2
+
+## Checks whether pid is running. Also outputs basic process stats as metrics
+if ! [ -e "$PIDFILE" ]
+then
+  RUNNING=false
+else
+  PID="$(cat $PIDFILE)"
+  if [ -n "$PID" ]  && [ -d "/proc/$PID" ]
+  then
+    RUNNING=true
+  else
+    RUNNING=false
+  fi
+fi
+
+if [ "$RUNNING" = "true" ]
+then
+  echo "status ok $NAME is running"
+  # Ok, now get metrics
+  PID=$(cat $PIDFILE 2>/dev/null)
+  $(dirname $0)/_pidstatMetrics $PID
+
+else
+  echo "status err $NAME is not running"
+fi
