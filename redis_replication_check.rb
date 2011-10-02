@@ -31,7 +31,7 @@ optparse = OptionParser.new do|opts|
 	opts.on( '-r', '--role <master|slave>', 'redis should be master or slave' ) do |role|
 		options[:role] = role.to_s
 	end
-	options[:connectedslaves] = nil
+	options[:connected_slaves] = nil
 	opts.on( '-c', '--connected_slaves <int>', 'master should have <int> slaves.  must be used with -r/--role master.  defaults to 1' ) do |int|
 		options[:connected_slaves] = int.to_i
 	end
@@ -88,8 +88,8 @@ end
 if options[:role] == "slave"
 	expectedlag = options[:slave_lag].to_i || 0
 	if status["role"] =~ /slave/ \
-		and status["master_link_status"] =~ /up/ \
-		and status["master_last_io_seconds_ago"].to_i <= expectedlag
+		&& status["master_link_status"] =~ /up/ \
+		&& status["master_last_io_seconds_ago"].to_i <= expectedlag
 			
 		puts "status ok ok"
 	else
@@ -97,13 +97,13 @@ if options[:role] == "slave"
 	end
 	puts "metric master_last_io_seconds_ago int #{status["master_last_io_seconds_ago"]}"	
 else
-	expectedslaves = options[:connected_slaves].to_i || 1
-	if status["role"] =~ /master/ \
-		and status["connected_slaves"].to_i = expectedslaves
+	expectedslaves = options[:connected_slaves] || 1
+	actualslaves = status["connected_slaves"].to_i
+	if status["role"] =~ /master/ && actualslaves == expectedslaves
 			
 		puts "status ok ok"
 	else
-		puts "status err redis thinks it is #{status["role"]} with #{status["connected_slaves"].to_i} slaves."
+		puts "status err redis thinks it is #{status["role"]} with #{actualslaves} slaves."
 	end
 end
 
