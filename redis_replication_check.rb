@@ -28,7 +28,7 @@ optparse = OptionParser.new do|opts|
 		options[:port] = port.to_i
 	end
 	options[:role] = nil
-	opts.on( '-r', '--role ROLE', 'redis should be a ROLE, where ROLE can be master or slave' ) do |role|
+	opts.on( '-r', '--role <master|slave>', 'redis should be master or slave' ) do |role|
 		options[:role] = role.to_s
 	end
 	options[:connectedslaves] = nil
@@ -36,7 +36,7 @@ optparse = OptionParser.new do|opts|
 		options[:connected_slaves] = int.to_i
 	end
 	options[:lag] = nil
-	opts.on( '-l', '--replication_lag INT', 'last master io cannot be more than <int> seconds behind.  must be used with -r/--role slave.  default is 0' ) do |int|
+	opts.on( '-l', '--replication_lag <int>', 'master io cannot be more than <int> seconds behind.  used with -r/--role slave.  default is 0' ) do |int|
 		options[:slave_lag] = int.to_i
 	end
 	opts.on( '--help', 'Display this screen' ) do
@@ -75,7 +75,7 @@ end
 redis_info	= `redis-cli -h #{options[:host]} -p #{options[:port]} info`
 
 if $? != 0
-	puts "status critical could not connect to redis on #{options[:host]}:#{options[:port]}"
+	puts "status err could not connect to redis on #{options[:host]}:#{options[:port]}"
 	exit 1
 end
 
@@ -93,7 +93,7 @@ if options[:role] == "slave"
 			
 		puts "status ok ok"
 	else
-		puts "status critical : redis thinks it is #{status["role"]}, master is #{status["master_link_status"]} and last io was #{status["master_last_io_seconds_ago"]}s."
+		puts "status err redis thinks it is #{status["role"]}, master is #{status["master_link_status"]} and last io was #{status["master_last_io_seconds_ago"]}s."
 	end
 	puts "metric master_last_io_seconds_ago int #{status["master_last_io_seconds_ago"]}"	
 else
@@ -103,7 +103,7 @@ else
 			
 		puts "status ok ok"
 	else
-		puts "status critical : redis thinks it is #{status["role"]} with #{status["connected_slaves"].to_i} slaves."
+		puts "status err redis thinks it is #{status["role"]} with #{status["connected_slaves"].to_i} slaves."
 	end
 end
 
