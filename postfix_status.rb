@@ -22,6 +22,7 @@ if ( running =~ /^\s*(\d+)\s+(pts|tty|\?)/ )
 		puts "metric postfix_queue_size int #{messages}"
 	else
 		puts "status ok postfix running on pid #{pid} with no pending messages"
+		puts "metric postfix_queue_size int #{messages}"
 	end
 else
 	puts "status critical postfix not running!"
