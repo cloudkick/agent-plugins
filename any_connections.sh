@@ -27,7 +27,7 @@ if [ $SIMULTANEOUS -lt 1 ]; then
 		echo "status err no server listening!"
 		SIMULTANEOUS=0
 	else
-		echo "status critical no users connected!";
+		echo "status err no users connected!";
 	fi
 	exit
 else

@@ -23,7 +23,7 @@ if ( running =~ /^\s*(\d+)\s+(pts|tty|\?)/ )
 		puts "status ok postfix running on pid #{pid} with no pending messages"
 	end
 else
-	puts "status critical postfix not running!"
+	puts "status err postfix not running!"
 	exit 2
 end
 

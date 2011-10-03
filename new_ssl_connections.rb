@@ -31,7 +31,7 @@ time = 10
 openssl = `which openssl`
 
 unless openssl =~ /\w+/
-	raise("status critical #{$0} needs openssl in the \$PATH")
+	raise("status err #{$0} needs openssl in the \$PATH")
 end
 
 openssl=openssl.chomp
@@ -39,7 +39,7 @@ openssl=openssl.chomp
 # pick one of the ciphers
 cipher = `#{openssl} ciphers HIGH`.grep /:.+?:/
 
-results = `#{openssl} s_time -connect #{host} -time #{time} -new -cipher #{cipher} 2>&1` || raise("status critical cannot test #{host}!")
+results = `#{openssl} s_time -connect #{host} -time #{time} -new -cipher #{cipher} 2>&1` || raise("status err cannot test #{host}!")
 
 # how openssl displays new connections
 if results.grep /tttttttttttttttttttttttttttttttttt/ 
@@ -55,6 +55,6 @@ metric connections_rate float #{connrate}"
 		end
 	end
 else
-	puts "status critical unexpected results!  try running #{openssl} s_client -connect #{host} manually"
+	puts "status err unexpected results!  try running #{openssl} s_client -connect #{host} manually"
 
 end

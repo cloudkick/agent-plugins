@@ -55,5 +55,5 @@ if ( pid )
 	ctl.close
 
 else
-	puts "status critical haproxy is not running!"
+	puts "status err haproxy is not running!"
 end
