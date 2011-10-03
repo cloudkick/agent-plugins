@@ -17,7 +17,7 @@ require 'optparse'
 options = {}
 
 optparse = OptionParser.new do|opts|
-	opts.banner = "Checks redis replication status."
+	opts.banner = "Checks redis replication status.  Usage: #{$0} -r <master|slave> <options>"
  
 	options[:host] = "localhost"
 	opts.on( '-h', '--host <host>', 'connect to redis running on <host>.  defaults to localhost' ) do |host|
@@ -35,7 +35,7 @@ optparse = OptionParser.new do|opts|
 	opts.on( '-c', '--connected_slaves <int>', 'master should have <int> slaves.  must be used with -r/--role master.  defaults to 1' ) do |int|
 		options[:connected_slaves] = int.to_i
 	end
-	options[:lag] = nil
+	options[:slave_lag] = nil
 	opts.on( '-l', '--replication_lag <int>', 'master io cannot be more than <int> seconds behind.  used with -r/--role slave.  default is 0' ) do |int|
 		options[:slave_lag] = int.to_i
 	end
