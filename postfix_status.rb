@@ -19,6 +19,7 @@ if ( running =~ /^\s*(\d+)\s+(pts|tty|\?)/ )
 	messages=`#{postqueue} -p |grep -v "Mail queue is empty" |wc -l`.chomp.to_i
 	if ( messages > 0 )
 		puts "status warn #{messages} messages in the postfix queue"
+		puts "metric postfix_queue_size int #{messages}"
 	else
 		puts "status ok postfix running on pid #{pid} with no pending messages"
 	end
