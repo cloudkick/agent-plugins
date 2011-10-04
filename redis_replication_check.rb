@@ -91,7 +91,7 @@ if options[:role] == "slave"
 		&& status["master_link_status"] =~ /up/ \
 		&& status["master_last_io_seconds_ago"].to_i <= expectedlag
 			
-		puts "status ok ok"
+		puts "status ok redis thinks it is slave"
 	else
 		puts "status err redis thinks it is #{status["role"]}, master is #{status["master_link_status"]} and last io was #{status["master_last_io_seconds_ago"]}s."
 	end
@@ -101,9 +101,10 @@ else
 	actualslaves = status["connected_slaves"].to_i
 	if status["role"] =~ /master/ && actualslaves == expectedslaves
 			
-		puts "status ok ok"
+		puts "status ok redis is master with #{actualslaves} slaves."
 	else
 		puts "status err redis thinks it is #{status["role"]} with #{actualslaves} slaves."
 	end
+	puts "metric connected_slaves int #{actualslaves}"
 end
 
