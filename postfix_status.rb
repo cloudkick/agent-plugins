@@ -25,7 +25,7 @@ if ( running =~ /^\s*(\d+)\s+(pts|tty|\?)/ )
 		puts "metric postfix_queue_size int #{messages}"
 	end
 else
-	puts "status critical postfix not running!"
+	puts "status err postfix not running!"
 	exit 2
 end
 

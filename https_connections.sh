@@ -37,7 +37,7 @@ if [ $SIMULTANEOUS -lt $THRESHOLD ]; then
 		echo "status err no server listening!"
 		exit
 	else
-		echo "status critical less than $THRESHOLD users connected!";
+		echo "status err less than $THRESHOLD users connected!";
 	fi
 	exit
 else
