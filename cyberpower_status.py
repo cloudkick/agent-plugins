@@ -36,11 +36,10 @@ def getInfo():
    # Ensure pwrstat is present. If not, abort.
    status, out = commands.getstatusoutput('pwrstat -status')
    if status:
-       msg = "Unable to find PowerPanel software.\n"
+       msg = "status err Unable to find PowerPanel software.\n"
        msg += "Please install the required software and try again.\n"
-       msg += status
        sys.stderr.write(msg)
-       sys.exit(1)
+       sys.exit(status)
 
    # Build our results into key: value pairs.
    results = {}
@@ -88,7 +87,7 @@ def makeMetric(ourName, ourValue, gauge=False):
 
     # Check if it's a string, int or float.
     if ourType not in ( str, int, float ):
-        msg = 'Invalid value passed to makeMetric. Exiting.\n'
+        msg = 'status err Invalid value passed to makeMetric. Exiting.\n'
         sys.stderr.write(msg)
         sys.exit(1)
 
@@ -111,7 +110,7 @@ def makeMetric(ourName, ourValue, gauge=False):
 if __name__ == '__main__':
     # pwrstat requires root to poll UPS
     if os.getuid():
-        msg = 'This script must be run as root.\n'
+        msg = 'status err This script must be run as root.\n'
         sys.stderr.write(msg)
         sys.exit(1)
 
