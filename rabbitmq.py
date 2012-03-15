@@ -127,7 +127,7 @@ if __name__ == '__main__':
   parser.add_option('--parameters', action='store', dest='parameters',
                     default='messages',
                     help='Comma separated list of parameters to retrieve (default = messages)')
-  parser.add_option('--queue-length', action='store', dest='length',
+  parser.add_option('--queue-length', type='int', action='store', dest='length',
                     help='Max messages in the queue before alert')
 
   (options, args) = parser.parse_args(sys.argv)
@@ -165,9 +165,10 @@ if __name__ == '__main__':
   if error:
     print 'status err %s' % (error)
     sys.exit(1)
-  if metrics['messages'] > length:
-    print 'status err Message queue %s at %d and above threshold of %d' % (
-           queue, metrics['messages'], length)
-    sys.exit(1)
+  if length:
+    if int(metrics['messages']) > length:
+      print 'status err Message queue %s at %d and above threshold of %d' % (
+            queue, int(metrics['messages']), length)
+      sys.exit(1)
   print 'status ok metrics successfully retrieved'
   print_metrics(action, metrics)
