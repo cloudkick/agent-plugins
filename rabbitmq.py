@@ -166,7 +166,8 @@ if __name__ == '__main__':
     print 'status err %s' % (error)
     sys.exit(1)
   if metrics['messages'] > length:
-    print 'Message queue %s at %s and above threshold of %s' % (queue, metrics['messages'], length)
+    print 'status err Message queue %s at %d and above threshold of %d' % (
+           queue, metrics['messages'], length)
     sys.exit(1)
   print 'status ok metrics successfully retrieved'
   print_metrics(action, metrics)
