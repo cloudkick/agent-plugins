@@ -112,7 +112,7 @@ def main():
 
         # Build our users logged in message.
         userMsg = "%d %s logged in: " % (userNum, userWord)
-        userMsg = userMsg + ", ".join(users)
+        userMsg += ", ".join(users)
 
         # Plugin spec limits status string to 48 chars.
         #
