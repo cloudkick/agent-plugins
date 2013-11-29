@@ -30,6 +30,8 @@ Support custom warnings and errors when the hit_rate stat falls below a
 specified threshold.
 """
 
+from __future__ import with_statement
+
 import os
 import re
 import subprocess
@@ -79,7 +81,7 @@ try:
             data.append('metric hit_rate float %1.3f' % hit_rate)
 
         with open(HIT_RATE_FILE, 'w') as f:
-             f.write('%i,%i' % (hits, misses))
+            f.write('%i,%i' % (hits, misses))
 except Exception, e:
     print 'status warn Error parsing varnishstat output (%s)' % (str(e))
     sys.exit()
